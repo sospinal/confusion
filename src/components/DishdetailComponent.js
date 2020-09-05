@@ -3,13 +3,9 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 're
 
 class Dishdetail extends Component {
     
-    // onDishSelect(dish) {
-    //     this.setState({ selectedDish: dish });
-    // }
-
     renderDish() {
 
-        let dish = this.props.selectedDish;
+        const dish = this.props.selectedDish;
 
         if (dish != null) {
             return(
@@ -28,10 +24,54 @@ class Dishdetail extends Component {
         }
     }
 
+    renderComments(dish) {
+        
+        
+        if (dish != null) {
+            
+            const coms = dish.comments.map((com) => {
+                
+                return (
+                    <ul key={com.id} className='list-unstyled'>
+                        <li>
+                            {com.comment}
+                        </li>
+                        <li>
+                            -- {com.author}, { }
+                            {
+                                new Intl.DateTimeFormat('en-US', {
+                                    month: 'short', day: '2-digit', year: 'numeric' 
+                                }).format(new Date(com.date))
+                            }
+                        </li>
+                    </ul>
+                );
+            });
+            
+            return (
+                <div className='p-3'>
+                    <h4>Comments</h4>
+                    {coms}
+                </div>
+            );
+
+
+        } else {
+            return (
+                <div></div>
+            );
+        }
+    }
+
     render() {
         return(
-            <div className='col-12 col-md-5 m-1'>
-                {this.renderDish()}
+            <div className='row'>
+                <div className='col-12 col-md-5 m-1'>
+                    {this.renderDish()}
+                </div>
+                <div className='col-12 col-md-5 m-1'>
+                    {this.renderComments(this.props.selectedDish)}
+                </div>
             </div>
         );
     }
