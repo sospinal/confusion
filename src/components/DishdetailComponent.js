@@ -3,9 +3,17 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 're
 
 class Dishdetail extends Component {
     
+    componentDidMount() {
+        console.log("Dishdetail component componentDidMount was invoked")
+    }
+
+    componentDidUpdate() {
+        console.log("Dishdetail component componentDidUpdate was invoked")
+    }
+
     renderDish() {
 
-        const dish = this.props.selectedDish;
+        const dish = this.props.dish;
 
         if (dish != null) {
             return(
@@ -65,12 +73,14 @@ class Dishdetail extends Component {
 
     render() {
         return(
-            <div className='row'>
-                <div className='col-12 col-md-5 m-1'>
-                    {this.renderDish()}
-                </div>
-                <div className='col-12 col-md-5 m-1'>
-                    {this.renderComments(this.props.selectedDish)}
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-12 col-md-5 m-1'>
+                        {this.renderDish()}
+                    </div>
+                    <div className='col-12 col-md-5 m-1'>
+                        {this.renderComments(this.props.dish)}
+                    </div>
                 </div>
             </div>
         );
