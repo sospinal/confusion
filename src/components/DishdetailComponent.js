@@ -1,18 +1,20 @@
 import React from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
-
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom' 
 
   function RenderDish({dish}) {
 
     if (dish != null) {
       return(
-        <Card>
-          <CardImg width='100%' src={dish.image} alt={dish.name} />
-          <CardBody>
-            <CardTitle>{dish.name}</CardTitle>
-            <CardText>{dish.description}</CardText>
-          </CardBody>
-        </Card>
+        <div className='col-12 col-md-5 m-1'>
+          <Card>
+            <CardImg width='100%' src={dish.image} alt={dish.name} />
+            <CardBody>
+              <CardTitle>{dish.name}</CardTitle>
+              <CardText>{dish.description}</CardText>
+            </CardBody>
+          </Card>
+        </div>
       );
     } else {
       return(
@@ -21,33 +23,29 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 're
     }
   }
 
-  function RenderComments({dish}) {
+  function RenderComments({comments}) {
     
-    if (dish != null) {
-      
-      const coms = dish.comments.map((com) => {
-        
-        return (
-          <ul key={com.id} className='list-unstyled'>
-            <li>
-              {com.comment}
-            </li>
-            <li>
-              -- {com.author}, { }
-              {
-                new Intl.DateTimeFormat('en-US', {
-                  month: 'short', day: '2-digit', year: 'numeric' 
-                }).format(new Date(com.date))
-              }
-            </li>
-          </ul>
-        );
-      });
-      
+    if (comments != null) {
       return (
-        <div className='p-3'>
+        <div className='col-12 col-md-5 m-1'>
           <h4>Comments</h4>
-          {coms}
+          <ul className='list-unstyled'>
+            {comments.map((comment) => {
+              return (
+                <li key={comment.id}>
+                  <p>{comment.comment}</p>
+                  <p>
+                    -- {comment.author},{" "}
+                    {new Intl.DateTimeFormat("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                    }).format(new Date(comment.date))}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       );
 
@@ -60,15 +58,23 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 're
 
   const DishDetail = (props) => {
 
-    return(
-      <div className='container'>
-        <div className='row'>
-          <div className='col-12 col-md-5 m-1'>
+    return (
+      <div className="container">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/home">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>{props.dish.name}</h3>
+            <hr />
+          </div>
+        </div>
+        <div className="row">
             <RenderDish dish={props.dish} />
-          </div>
-          <div className='col-12 col-md-5 m-1'>
-            <RenderComments dish={props.dish} />
-          </div>
+            <RenderComments comments={props.comments} />
         </div>
       </div>
     );
