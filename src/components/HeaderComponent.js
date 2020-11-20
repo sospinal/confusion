@@ -18,8 +18,6 @@ import {
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
 
-console.log('Hola');
-
 class Header extends Component {
   constructor(props) {
     super(props);
